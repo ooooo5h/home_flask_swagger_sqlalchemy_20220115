@@ -14,5 +14,5 @@ class User(Resource):
         
     def put(self):
         return{
-            '임시' : '회원강ㅂ'
+            '임시' : '회원가입'
         }

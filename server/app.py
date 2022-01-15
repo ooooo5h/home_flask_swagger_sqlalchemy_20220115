@@ -9,4 +9,10 @@ def create_app(config_name):
     api = Api(app, api_spec_url='/api/spec', title='my_server spec', api_version='0.1', catch_all_404s=True)
     
     
+
+    from server.api.user import User
+    
+    api.add_resource(User, '/user')
+    
+    
     return app
