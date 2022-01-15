@@ -19,6 +19,7 @@ class Lecture(Resource):
         }
     })      
     def delete(self):
+        """수강 취소 기능"""
         return{
             '임시' : '수강취소 기능'
         }
