@@ -11,8 +11,10 @@ def create_app(config_name):
     
 
     from server.api.user import User
+    from server.api.lecture import Lecture
     
     api.add_resource(User, '/user')
+    api.add_resource(Lecture, '/lecture')
     
     
     return app
