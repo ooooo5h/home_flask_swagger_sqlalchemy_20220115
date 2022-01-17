@@ -1,6 +1,9 @@
 from flask_restful import Resource, reqparse
 from flask_restful_swagger_2 import swagger
 
+# users 테이블에 연결할 클래스 가져오기
+from server.model import Users
+
 # post메쏘드에서 사용할 파라미터
 post_parser = reqparse.RequestParser()
 post_parser.add_argument('email', type=str, required=True, location='form')  # 파라미터 이름/데이터타입/필수여부/첨부된 곳 명시
@@ -71,9 +74,10 @@ class User(Resource):
         # 받아낸 파라미터들을 dict변수에 담기
         args = post_parser.parse_args()
         
-        # 이메일, 비밀번호를 받아왔으면 확인
-        print(f"이메일 : {args['email']}")
-        print(f"비번 : {args['password']}")
+        # email이 동일한 사람이 있는지 찾아보기
+        first_user = Users.query.first()
+        
+        print('첫번쨰 사용자 : ', first_user)
         
         return{
             '임시' : '로그인'
