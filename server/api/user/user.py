@@ -85,8 +85,17 @@ class User(Resource):
             # ex. '은' ==> 전은형/ 전은영 등 여러 경우가 나올 수 있다 => all()
             # 쿼리의 조건에서 LIKE 활용 예시
             users_by_name = Users.query.filter(Users.name.like(f"%{args['name']}%")).all()
-            print(users_by_name)
+            
+            # JSON 으로 내려갈 수 있는 dict형태로 목록을 변환
+            searched_users_list = [ user.get_data_object()  for user in users_by_name]
         
+            return{
+                'code' : 200,
+                'message' : '이름으로 사용자 검색 성공',
+                'data' : {
+                    'users' : searched_users_list
+                }
+            }
         
         return {
             '임시' : '사용자 정보 조회'
