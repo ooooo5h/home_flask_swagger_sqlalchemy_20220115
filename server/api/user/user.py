@@ -35,7 +35,20 @@ class User(Resource):
         'tags' : ['user'],
         'description' : '로그인',
         'parameters' : [
-            
+            {
+                'name' : 'email',
+                'description' : '로그인에 사용할 이메일',
+                'in' : 'formData',  # query or formData  ( 향후 header도 사용)
+                'type' : 'string',  # string or integer or number(float) or boolean ( 향후 file도 이용 예정) 
+                'required' : True,
+            },     
+            {
+                'name' : 'password',
+                'description' : '로그인에 사용할 비밀번호',
+                'in' : 'formData',  
+                'type' : 'string',  
+                'required' : True,
+            },     
         ],
         'responses' : {
             '200' : {
