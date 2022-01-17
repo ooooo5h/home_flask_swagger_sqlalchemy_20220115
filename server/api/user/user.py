@@ -1,6 +1,8 @@
 from flask_restful import Resource, reqparse
 from flask_restful_swagger_2 import swagger
 
+import datetime
+
 # users 테이블에 연결할 클래스 가져오기
 from server.model import Users
 
@@ -23,6 +25,10 @@ put_parser.add_argument('phone', type=str, required=True, location='form')
 get_parser = reqparse.RequestParser()
 get_parser.add_argument('email', type=str, required=False, location='args')
 get_parser.add_argument('name', type=str, required=False, location='args')
+
+# delete메쏘드에서 사용할 파라미터
+delete_parser = reqparse.RequestParser()
+delete_parser.add_argument('user_id', type=int, required=True, location='args')
 
 class User(Resource):
     
@@ -279,6 +285,34 @@ class User(Resource):
     })   
     def delete(self):
         """회원 탈퇴하기"""
+        
+        args = delete_parser.parse_args()
+        
+        # args['user_id']를 이용해서 삭제할 사용자가 실존하는지 확인
+        
+        delete_user = Users.query.filter(Users.id == args['user_id']).first()
+        
+        if delete_user == None:
+            return{
+                'code' : 400,
+                'message' : '해당 사용자는 존재하지 않습니다.'
+            }, 400
+       
+        # delete_user에 실제 객체가 들어있다 => 활용하자
+                    
+        # db.session.delete(delete_user) # 누구를 삭제할지
+        # db.session.commit()            # 실제 삭제 수행 => 이 사용자의 활동 내역도 다 같이 지워야 정상 동작
+        
+        # 실무 : 기존 데이터를 모두 임시 데이터로 변경
+        delete_user.name = '탈퇴회원'
+        delete_user.email = 'retired'
+        delete_user.password = 'retired'
+        delete_user.retired_at = datetime.datetime.utcnow()
+        
+        db.session.add(delete_user)
+        db.session.commit()
+        
         return{
-            '임시' : '회원 탈퇴 기능'
+            'code' : 200,
+            'message' : '회원 삭제 수행 완료'
         }
