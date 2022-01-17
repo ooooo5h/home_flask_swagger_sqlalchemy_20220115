@@ -22,6 +22,7 @@ put_parser.add_argument('phone', type=str, required=True, location='form')
 # get메쏘드에서 사용할 파라미터
 get_parser = reqparse.RequestParser()
 get_parser.add_argument('email', type=str, required=False, location='args')
+get_parser.add_argument('name', type=str, required=False, location='args')
 
 class User(Resource):
     
@@ -35,7 +36,14 @@ class User(Resource):
                 'in' : 'query',
                 'type' : 'string',
                 'required' : False,
-            }
+            },
+            {
+                'name' : 'name',
+                'description' : '검색해볼 이름 - 일부분만 일치해도 찾아줌',
+                'in' : 'query',
+                'type' : 'string',
+                'required' : False,
+            },
         ],
         'responses' : {
             '200' : {
@@ -71,6 +79,14 @@ class User(Resource):
                 }, 400
         
         # 2 : 이름이 파라미터로 왔다면, 경진 => 조경진도 리턴
+        if args['name']:
+            # 이메일은 첨부가 안되어있음!!
+            
+            # ex. '은' ==> 전은형/ 전은영 등 여러 경우가 나올 수 있다 => all()
+            # 쿼리의 조건에서 LIKE 활용 예시
+            users_by_name = Users.query.filter(Users.name.like(f"%{args['name']}%")).all()
+            print(users_by_name)
+        
         
         return {
             '임시' : '사용자 정보 조회'
