@@ -14,6 +14,7 @@ class Users(db.Model):
     name = db.Column(db.String(20), nullable=False)
     phone = db.Column(db.String(15))  # nullable의 기본값은 null허용
     birth_year = db.Column(db.Integer, nullable=False, default=1995)
+    created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     
     
     # 3 : 객체 -> dict로 변환하는 메쏘드(응답을 내려주는 용도)
