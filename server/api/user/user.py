@@ -4,6 +4,9 @@ from flask_restful_swagger_2 import swagger
 # users 테이블에 연결할 클래스 가져오기
 from server.model import Users
 
+# DB에 INSERT/UPDATE 등의 반영을 하기 위한 변수
+from server import db
+
 # post메쏘드에서 사용할 파라미터
 post_parser = reqparse.RequestParser()
 post_parser.add_argument('email', type=str, required=True, location='form')  # 파라미터 이름/데이터타입/필수여부/첨부된 곳 명시
@@ -149,7 +152,17 @@ class User(Resource):
         
         args = put_parser.parse_args()
         
-        print(f"이메일 : {args['email']}")
+        # 파라미터들을 users테이블의 row에 추가해보기
+        # 객체 지향 : 새로운 데이터를 추가한다 = 새 인스턴스를 만든다
+        new_user = Users()
+        new_user.email = args['email']
+        new_user.password = args['password']
+        new_user.name = args['name']
+        new_user.phone = args['phone']
+        
+        # new_user의 객체를 DB에 등록시킬 준비를 하고 확정짓기
+        db.session.add(new_user)
+        db.session.commit()
         
         return{
             '임시' : '회원가입'
