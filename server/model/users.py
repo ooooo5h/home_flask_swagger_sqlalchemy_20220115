@@ -15,6 +15,7 @@ class Users(db.Model):
     phone = db.Column(db.String(15))  # nullable의 기본값은 null허용
     birth_year = db.Column(db.Integer, nullable=False, default=1995)
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
+    retired_at = db.Column(db.DateTime)
     
     
     # 3 : 객체 -> dict로 변환하는 메쏘드(응답을 내려주는 용도)
@@ -26,6 +27,7 @@ class Users(db.Model):
             'phone' : self.phone,
             'birth_year' : self.birth_year,
             'created_at' : str(self.created_at), # SQLAlchemy의 DateTime은 JSON응답 처리 불가 => str로 변환해서 리턴
+            'retired_at' : str(self.retired_at)
         }
         
         return data
