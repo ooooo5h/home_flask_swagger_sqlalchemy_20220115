@@ -80,12 +80,18 @@ class User(Resource):
             .filter(Users.email == args['email'])\
             .filter(Users.password == args['password'])\
             .first()   # 쿼리의 수행 결과 중 첫 줄 리턴
+            
+        if login_user:
+            return{
+                'code' : 200,
+                'message' : '로그인 성공'
+            }
+        else:
+            return{
+                'code' : 400,
+                'message' : '로그인 실패'
+            }, 400
 
-        # 결과가 없으면 None이 대입됨        
-        print(login_user)
-        
-        
-        
         
         return{
             '임시' : '로그인'
