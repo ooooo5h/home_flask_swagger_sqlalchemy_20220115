@@ -337,9 +337,10 @@ class User(Resource):
             },
             {
                 'name' : 'field',
-                'description' : '어느 항목을 변경할지?',
+                'description' : '어느 항목을 변경할지? - name / phone 중 하나만 입력',
                 'in' : 'formData',
-                'type' : 'string',  # name / phone 둘 중 하나를 입력받자
+                'type' : 'string',  # name / phone 둘 중 하나를 입력받자 => 입력자체를 제한걸자
+                'enum' : ['name', 'phone'],
                 'required' : True
             },
             {
