@@ -29,5 +29,5 @@ class Users(db.Model):
             'created_at' : str(self.created_at), # SQLAlchemy의 DateTime은 JSON응답 처리 불가 => str로 변환해서 리턴
             'retired_at' : str(self.retired_at) if self.retired_at else None
         }
-        
+                
         return data
