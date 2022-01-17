@@ -77,15 +77,21 @@ class User(Resource):
         # 받아낸 파라미터들을 dict변수에 담기
         args = post_parser.parse_args()
         
-        # email과 password가 동일한 사람이 있는지 찾아보기
-        # 여러 단계의 필터를 세팅하고, fisrt()로 한번에 호출
+        # 1단계 검사 : 이메일 있는가?        
         login_user = Users.query\
             .filter(Users.email == args['email'])\
-            .filter(Users.password == args['password'])\
-            .first()   # 쿼리의 수행 결과 중 첫 줄 리턴
+            .first()
             
-        if login_user:
-            # 로그인에 성공하면, 그 사용자의 데이터를 내려주자
+        if login_user is None:
+            return{
+                'code' : 400,
+                'message' : '잘못된 이메일입니다.',
+            }, 400
+        
+        # 1단계 통과 후 2단계 검사 : 비밀번호도 맞는가?
+        # DB에 추가 쿼리를 조회할 필요가 없음 왜냐 => 여기 코드는 login_user가 실제 있는 상황이니까       
+        if login_user.password == args['password']:
+            # 이메일/비밀번호 둘다 일치
             return{
                 'code' : 200,
                 'message' : '로그인 성공',
@@ -94,15 +100,11 @@ class User(Resource):
                 }
             }
         else:
+            # 이메일은 맞는데, 비밀번호가 틀림
             return{
                 'code' : 400,
-                'message' : '로그인 실패'
+                'message' : '비밀번호가 틀립니다.'
             }, 400
-
-        
-        return{
-            '임시' : '로그인'
-        }
         
         
     @swagger.doc({
