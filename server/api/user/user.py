@@ -6,6 +6,12 @@ post_parser = reqparse.RequestParser()
 post_parser.add_argument('email', type=str, required=True, location='form')  # 파라미터 이름/데이터타입/필수여부/첨부된 곳 명시
 post_parser.add_argument('password', type=str, required=True, location='form')
 
+# put메쏘드에서 사용할 파라미터
+put_parser = reqparse.RequestParser()
+put_parser.add_argument('email', type=str, required=True, location='form')
+put_parser.add_argument('password', type=str, required=True, location='form')
+put_parser.add_argument('name', type=str, required=True, location='form')
+put_parser.add_argument('phone', type=str, required=True, location='form')
 
 class User(Resource):
     
@@ -13,7 +19,7 @@ class User(Resource):
         'tags' : ['user'],
         'description' : '사용자 정보 조회',
         'parameters' : [
-            
+                        
         ],
         'responses' : {
             '200' : {
@@ -78,7 +84,34 @@ class User(Resource):
         'tags' : ['user'],
         'description' : '회원가입',
         'parameters' : [
-            
+            {
+                'name' : 'email',
+                'description' : '회원가입할 이메일 주소',
+                'in' : 'formData',
+                'type' : 'string',
+                'required' : True              
+            },
+            {
+                'name' : 'password',
+                'description' : '회원가입 비밀번호',
+                'in' : 'formData',
+                'type' : 'string',
+                'required' : True              
+            },
+            {
+                'name' : 'name',
+                'description' : '사용자 본명',
+                'in' : 'formData',
+                'type' : 'string',
+                'required' : True              
+            },
+            {
+                'name' : 'phone',
+                'description' : '아이디 찾기에 사용할 연락처',
+                'in' : 'formData',
+                'type' : 'string',
+                'required' : True              
+            },
         ],
         'responses' : {
             '200' : {
@@ -91,6 +124,11 @@ class User(Resource):
     })   
     def put(self):
         """회원가입"""
+        
+        args = put_parser.parse_args()
+        
+        print(f"이메일 : {args['email']}")
+        
         return{
             '임시' : '회원가입'
         }
