@@ -19,13 +19,23 @@ put_parser.add_argument('password', type=str, required=True, location='form')
 put_parser.add_argument('name', type=str, required=True, location='form')
 put_parser.add_argument('phone', type=str, required=True, location='form')
 
+# get메쏘드에서 사용할 파라미터
+get_parser = reqparse.RequestParser()
+get_parser.add_argument('email', type=str, required=False, location='args')
+
 class User(Resource):
     
     @swagger.doc({
         'tags' : ['user'],
         'description' : '사용자 정보 조회',
         'parameters' : [
-                        
+            {
+                'name' : 'email',
+                'description' : '검색해볼 이메일 - 완전히 맞는 이메일만 찾아줌',
+                'in' : 'query',
+                'type' : 'string',
+                'required' : False,
+            }
         ],
         'responses' : {
             '200' : {
@@ -38,6 +48,30 @@ class User(Resource):
     })   
     def get(self):
         """사용자 정보 조회"""
+        
+        args = get_parser.parse_args()
+        
+        # 1 : 이메일을 파라미터로 받아서 일치하는 회원을 리턴
+        # 이메일 파라미터는 없을 수도 있음 ==> 실제로 첨부되었는지 확인하는 작업이 필요
+        if args['email']:
+            # args : 일종의 dict => 'email'조회를 했는데 첨부가 안되었다면 None으로 리턴
+            # email 파라미터가 첨부된 상황
+            user_by_email = Users.query.filter(Users.email == args['email']).first()
+            
+            if user_by_email:
+                return {
+                    'code' : 200,
+                    'message' : '이메일로 사용자 검색 성공',
+                    'user' : user_by_email.get_data_object()
+                }
+            else:
+                return{
+                    'code' : 400,
+                    'message' : '이메일로 사용자 검색 결과 없음'
+                }, 400
+        
+        # 2 : 이름이 파라미터로 왔다면, 경진 => 조경진도 리턴
+        
         return {
             '임시' : '사용자 정보 조회'
         }
