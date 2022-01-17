@@ -77,7 +77,8 @@ class User(Resource):
         # email이 동일한 사람이 있는지 찾아보기
         first_user = Users.query.first()
         
-        print('첫번쨰 사용자 : ', first_user)
+        print('첫번쨰 사용자의 이름 : ', first_user.name)
+        print('첫번쨰 사용자의 연락처 : ', first_user.phone)
         
         return{
             '임시' : '로그인'
