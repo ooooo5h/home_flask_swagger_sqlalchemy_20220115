@@ -1,3 +1,4 @@
+from ast import arg
 from flask_restful import Resource, reqparse
 from flask_restful_swagger_2 import swagger
 
@@ -365,6 +366,12 @@ class User(Resource):
         
         args = patch_parser.parse_args()
         
+        if args['field'] == 'name':
+            pass
+        elif args['field'] == 'phone':
+            pass
+        
         return{
-            '임시' : '회원정보 수정'
-        }
+            'code' : 400,
+            'message' : 'field항목은 name/phone 중 하나여야 합니다.'
+        }, 400
