@@ -25,6 +25,7 @@ class Users(db.Model):
             'name' : self.name,
             'phone' : self.phone,
             'birth_year' : self.birth_year,
+            'created_at' : str(self.created_at), # SQLAlchemy의 DateTime은 JSON응답 처리 불가 => str로 변환해서 리턴
         }
         
         return data
