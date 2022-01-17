@@ -74,9 +74,13 @@ class User(Resource):
         # 받아낸 파라미터들을 dict변수에 담기
         args = post_parser.parse_args()
         
-        # email이 동일한 사람이 있는지 찾아보기
-        login_user = Users.query.filter(Users.email == args['email']).first()   # 쿼리의 수행 결과 중 첫 줄 리턴
-        
+        # email과 password가 동일한 사람이 있는지 찾아보기
+        # 여러 단계의 필터를 세팅하고, fisrt()로 한번에 호출
+        login_user = Users.query\
+            .filter(Users.email == args['email'])\
+            .filter(Users.password == args['password'])\
+            .first()   # 쿼리의 수행 결과 중 첫 줄 리턴
+
         # 결과가 없으면 None이 대입됨        
         print(login_user)
         
