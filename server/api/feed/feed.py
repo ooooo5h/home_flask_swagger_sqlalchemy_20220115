@@ -4,10 +4,13 @@ from flask_restful_swagger_2 import swagger
 from server import db
 from server.model import Feeds
 
+from werkzeug.datastructures import FileStorage
+
 post_parser = reqparse.RequestParser()
 post_parser.add_argument('user_id', type=int, required=True, location='form')
 post_parser.add_argument('lecture_id', type=int, required=True, location='form')
 post_parser.add_argument('content', type=str, required=True, location='form')
+post_parser.add_argument('feed_images', type=FileStorage, required=False, location='files', action='append')
 
 class Feed(Resource):
     
@@ -60,7 +63,16 @@ class Feed(Resource):
         db.session.commit()
 
         # commit시점 이후에는 DB에 등록이 완료되었기때문에, id/created_at 등의 자동 등록 데이터도 모두 설정이 완료됨
-    
+        
+        # 사진 목록을 등록하는 행위는 commit()으로 id값이 확인 가능하게 된 후에 작업하자
+        
+        # 사진이 첨부되지 않았을 수도 있다 => 확인해보고 올리자
+        if args['feed_images'] : #사진이 파라미터에 첨부되었나?
+            for image in args['feed_images']:  
+                
+                
+                pass
+            
         
         return {
             'code' : 200,
