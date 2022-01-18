@@ -268,7 +268,8 @@ class User(Resource):
             'code' : 200,
             'message' : '회원가입 성공',
             'data' : {
-                'user' : new_user.get_data_object()
+                'user' : new_user.get_data_object(),
+                'token' : encode_token(new_user)
             }
         }
         
