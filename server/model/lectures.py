@@ -8,6 +8,8 @@ class Lectures(db.Model):
     campus = db.Column(db.String(10), nullable=False)
     teacher_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     
+    teacher = db.relationship('Users')
+    
     def get_data_object(self):
         data = {
             'id' : self.id,
@@ -15,5 +17,7 @@ class Lectures(db.Model):
             'campus' : self.campus,
             'teacher_id' : self.teacher_id,
         }
+        
+        data['teacher'] = self.teacher.get_data_object()
         
         return data
