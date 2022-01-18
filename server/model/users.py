@@ -14,6 +14,9 @@ class Users(db.Model):
     name = db.Column(db.String(20), nullable=False)
     phone = db.Column(db.String(15))  # nullable의 기본값은 null허용
     birth_year = db.Column(db.Integer, nullable=False, default=1995)
+    
+    profile_img_url = db.Column(db.String(200))  
+    
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     retired_at = db.Column(db.DateTime)
     
@@ -31,6 +34,7 @@ class Users(db.Model):
             'name' : self.name,
             'phone' : self.phone,
             'birth_year' : self.birth_year,
+            'profile_img_url' : self.profile_img_url,
             'created_at' : str(self.created_at), # SQLAlchemy의 DateTime은 JSON응답 처리 불가 => str로 변환해서 리턴
             'retired_at' : str(self.retired_at) if self.retired_at else None
         }
