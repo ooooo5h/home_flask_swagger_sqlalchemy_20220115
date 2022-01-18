@@ -2,7 +2,7 @@
 # JWT 관련 기능 모아두는 모듈
 from functools import wraps
 import jwt
-from flask import current_app
+from flask import current_app, g
 from flask_restful import reqparse
 
 from server.model import Users
@@ -75,6 +75,10 @@ def token_required(func):
         
         # 3-1 : 사용자가 있다면 올바른 토큰이니까 원래 함수의 내용을 실행
         if user :
+            
+            # 토큰으로 사용자를 찾아냈다면, 원본 함수에서도 그 사용자를 가져다가 쓰면 편하겠다.
+            g.user = user            
+            
             return func(*args, **kwargs)
             
         # 3-2 : 사용자가 Null이라면 이유막론하고 잘못된 토큰이니까 403으로 에러 리턴
