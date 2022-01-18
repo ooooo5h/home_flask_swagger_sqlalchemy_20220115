@@ -19,12 +19,14 @@ def create_app(config_name):
     
 
     from server.api.user import User
-    from server.api.lecture import Lecture
+    from server.api.lecture import Lecture, LectureDetail
     from server.api.feed import Feed
     
     api.add_resource(User, '/user')
-    api.add_resource(Lecture, '/lecture')
+    api.add_resource(Lecture, '/lecture') 
+    api.add_resource(LectureDetail, '/lecture/<int:lecture_id>')  # 자료형 기재해야함
     api.add_resource(Feed, '/feed')
+
     
     swagger_ui = get_swaggerui_blueprint('/api/docs', '/api/spec.json', config={'app_name' : 'my sns service'})
     app.register_blueprint(swagger_ui, url_prefix='/api/docs')

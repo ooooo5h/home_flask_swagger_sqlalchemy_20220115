@@ -2,7 +2,7 @@ from flask_restful import Resource
 
 class LectureDetail(Resource):
     
-    def get(self):
+    def get(self, lecture_id):
         return {
-            'code' : '특정 강의 상세조회'
+            'code' : f"{lecture_id}번 강의 상세조회"
         }
