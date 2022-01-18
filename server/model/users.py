@@ -22,7 +22,7 @@ class Users(db.Model):
     
     # cf)Feeds테이블에서 Users로 외래키를 들고 연결을 설정한 상태
     # Users의 입장에서는 Feeds테이블에서 본인을 참조하는 row들이 여러개가 있는 상태
-    my_feeds = db.relationship('Feeds')
+    my_feeds = db.relationship('Feeds', backref='writer')
     
     
     # 3 : 객체 -> dict로 변환하는 메쏘드(응답을 내려주는 용도)

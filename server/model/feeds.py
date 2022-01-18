@@ -9,9 +9,6 @@ class Feeds(db.Model):
     content = db.Column(db.TEXT, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     
-    # 외래키로 설정된 관계를 ORM으로 표현해보자
-    writer = db.relationship('Users')
-    lecture = db.relationship('Lectures')
     
     # ORM으로 관계 표현(SQLAlchemy)의 정석 => 부모의 입장에서 자식목록을 갖고있자
     # backref => 자식 테이블 모델의 입장에서 본인을 찾아올 때 사용할 변수의 이름을 지정함

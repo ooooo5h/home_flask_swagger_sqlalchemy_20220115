@@ -10,6 +10,8 @@ class Lectures(db.Model):
     
     teacher = db.relationship('Users')
     
+    feeds = db.relationship('Feeds', backref='lecture')
+    
     def get_data_object(self, need_teacher_info=False):
         data = {
             'id' : self.id,
