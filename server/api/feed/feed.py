@@ -44,7 +44,14 @@ class Feed(Resource):
                 'in' : 'formData',
                 'type' : 'string',  
                 'required' : True
-            }
+            },
+            {
+                'name' : 'feed_images',
+                'description' : '게시글 첨부 사진',
+                'in' : 'formData',
+                'type' : 'file',  
+                'required' : False
+            },
         ],
         'responses' : {
             '200' : {
@@ -97,7 +104,7 @@ class Feed(Resource):
                     .put_object(Key=s3_file_name, Body=image_body)
                 
                 aws_s3\
-                    .ObjectAcl().put(current_app.config['AWS_S3_BUCKET_NAME'], s3_file_name)\
+                    .ObjectAcl(current_app.config['AWS_S3_BUCKET_NAME'], s3_file_name)\
                     .put(ACL='public-read')
             
         
