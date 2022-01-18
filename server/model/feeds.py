@@ -14,7 +14,8 @@ class Feeds(db.Model):
     lecture = db.relationship('Lectures')
     
     # ORM으로 관계 표현(SQLAlchemy)의 정석 => 부모의 입장에서 자식목록을 갖고있자
-    feed_images = db.relationship('FeedImages')
+    # backref => 자식 테이블 모델의 입장에서 본인을 찾아올 때 사용할 변수의 이름을 지정함
+    feed_images = db.relationship('FeedImages', backref='feed')
     
     def get_data_object(self, need_writer=True):
         data = {
