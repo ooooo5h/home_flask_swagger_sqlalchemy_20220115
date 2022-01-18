@@ -9,6 +9,7 @@ from flask_restful_swagger_2 import swagger
 
 from server import db
 from server.model import Feeds, Users, FeedImages
+from server.api.utils import token_required
 
 from werkzeug.datastructures import FileStorage
 
@@ -62,6 +63,7 @@ class Feed(Resource):
             }
         }
     })    
+    @token_required
     def post(self):
         """게시글 등록하기"""            
         args = post_parser.parse_args()
