@@ -83,7 +83,7 @@ class Feed(Resource):
             
             for image in args['feed_images']:  
                 
-                
+                s3_file_name = f"images/feed_images/MySNS_{사용자id암호화}_{현재시간숫자로}{.확장자}"
                 
                 pass
             
