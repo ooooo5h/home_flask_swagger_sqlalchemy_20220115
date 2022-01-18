@@ -1,6 +1,8 @@
+import hashlib
 import boto3
 import time
 import os
+import hashlib # str -> 암호화된 문구로 변경
 
 from flask import current_app
 from flask_restful import Resource, reqparse
@@ -69,7 +71,7 @@ class UserProfileImage(Resource):
             user_email = 'homeReview@test.com' # 임시 이메일
             now = round(time.time() * 10000)  #   현재 시간을 대충 숫자값으로 표현.
             
-            new_file_name = f"MySNS_{user_email}_{now}"
+            new_file_name = f"MySNS_{hashlib.md5(user_email.encode('utf-8')).hexdigest()}_{now}"
             
             # 2 : 확장자 추출
             
