@@ -8,7 +8,7 @@ from flask_restful import Resource, reqparse
 from flask_restful_swagger_2 import swagger
 
 from server import db
-from server.model import Feeds, Users
+from server.model import Feeds, Users, FeedImages
 
 from werkzeug.datastructures import FileStorage
 
@@ -107,6 +107,13 @@ class Feed(Resource):
                     .ObjectAcl(current_app.config['AWS_S3_BUCKET_NAME'], s3_file_name)\
                     .put(ACL='public-read')
             
+                feed_img = FeedImages()
+                feed_img.feed_id = new_feed.id  
+                feed_img.img_url = s3_file_name
+                
+                db.session.add(feed_img)
+            db.session.commit()
+                
         
         return {
             'code' : 200,
