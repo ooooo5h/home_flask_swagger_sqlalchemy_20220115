@@ -18,11 +18,12 @@ def create_app(config_name):
     api = Api(app, api_spec_url='/api/spec', title='my_server spec', api_version='0.1', catch_all_404s=True)
     
 
-    from server.api.user import User
+    from server.api.user import User, UserProfileImage
     from server.api.lecture import Lecture, LectureDetail
     from server.api.feed import Feed
     
     api.add_resource(User, '/user')
+    api.add_resource(UserProfileImage, '/user/profile')
     api.add_resource(Lecture, '/lecture') 
     api.add_resource(LectureDetail, '/lecture/<int:lecture_id>')  # 자료형 기재해야함
     api.add_resource(Feed, '/feed')
