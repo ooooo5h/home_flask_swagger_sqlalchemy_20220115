@@ -85,7 +85,10 @@ class Feed(Resource):
                 
                 _, file_extensions = os.path.splitext(image.filename)
                 
-                s3_file_name = f"images/feed_images/MySNS_{hashlib.md5(upload_user.email.encode('utf-8')).hexdigest()}}_{round(time.time() * 10000)}{file_extensions}"
+                encrypted_user_email = hashlib.md5(upload_user.email.encode('utf-8')).hexdigest()
+                now_number = round(time.time() * 10000)
+                
+                s3_file_name = f"images/feed_images/MySNS_{encrypted_user_email}_{now_number}{file_extensions}"
                 
                 image_body = image.stream.read()
                 
