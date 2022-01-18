@@ -1,4 +1,5 @@
 import boto3
+import time
 
 from flask import current_app
 from flask_restful import Resource, reqparse
@@ -63,6 +64,11 @@ class UserProfileImage(Resource):
             # print(file.filename)
             
             # 1 : 파일 이름 재가공
+            
+            user_email = 'test@test.com' # 임시 이메일
+            now = round(time.time() * 10000)  #   현재 시간을 대충 숫자값으로 표현.
+            
+            new_file_name = f"MySNS_{user_email}_{now}"
             # 2 : 확장자 추출
             
             # 최종경로 => 1, 2의 합체 + S3의 폴더            
