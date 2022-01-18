@@ -83,7 +83,9 @@ class Feed(Resource):
             
             for image in args['feed_images']:  
                 
-                s3_file_name = f"images/feed_images/MySNS_{사용자id암호화}_{현재시간숫자로}{.확장자}"
+                _, file_extensions = os.path.splitext(image.filename)
+                
+                s3_file_name = f"images/feed_images/MySNS_{hashlib.md5(upload_user.email.encode('utf-8')).hexdigest()}}_{round(time.time() * 10000)}{file_extensions}"
                 
                 pass
             
