@@ -87,7 +87,15 @@ class Feed(Resource):
                 
                 s3_file_name = f"images/feed_images/MySNS_{hashlib.md5(upload_user.email.encode('utf-8')).hexdigest()}}_{round(time.time() * 10000)}{file_extensions}"
                 
-                pass
+                image_body = image.stream.read()
+                
+                aws_s3\
+                    .Bucket(current_app.config['AWS_S3_BUCKET_NAME'])\
+                    .put_object(Key=s3_file_name, Body=image_body)
+                
+                aws_s3\
+                    .ObjectAcl().put(current_app.config['AWS_S3_BUCKET_NAME'], s3_file_name)\
+                    .put(ACL='public-read')
             
         
         return {
