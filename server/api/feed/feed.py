@@ -10,6 +10,8 @@ from flask_restful_swagger_2 import swagger
 from server import db
 from server.model import Feeds, Users, FeedImages
 
+from server.api.utils import decode_token
+
 from werkzeug.datastructures import FileStorage
 
 # 임시 코드
@@ -73,9 +75,18 @@ class Feed(Resource):
         token_args = token_parser.parse_args()
         print('받아온 토큰 : ', token_args['X-Http-Token'])
         
-        return {
-            '임시' : '토큰값 확인'
-        }
+        user = decode_token(token_args['X-Http-Token'])
+        
+        if user :
+            return {
+                'user' : user.get_data_object()
+            }
+        else : 
+            return{
+                'user' : None,
+                'message' : '잘못된 토큰이 들어왔습니다.'
+            }, 403
+            
         args = post_parser.parse_args()
         
         new_feed = Feeds()
