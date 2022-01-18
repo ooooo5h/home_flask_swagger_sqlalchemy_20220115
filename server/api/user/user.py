@@ -6,6 +6,7 @@ import datetime
 
 # users 테이블에 연결할 클래스 가져오기
 from server.model import Users
+from server.api.utils import encode_token
 
 # DB에 INSERT/UPDATE 등의 반영을 하기 위한 변수
 from server import db
@@ -169,7 +170,8 @@ class User(Resource):
                 'code' : 200,
                 'message' : '로그인 성공',
                 'data' : {
-                    'user' : login_user.get_data_object()
+                    'user' : login_user.get_data_object(),
+                    'token' : encode_token(login_user)
                 }
             }
         else:
