@@ -9,6 +9,7 @@ from flask_restful import Resource, reqparse
 from werkzeug.datastructures import FileStorage  # 파라미터로 파일을 받을 때 필요한 클래스
 from flask_restful_swagger_2 import swagger
 
+from server import db
 from server.model import Users
 
 put_parser = reqparse.RequestParser()
@@ -101,6 +102,14 @@ class UserProfileImage(Resource):
             
             # 이 파일을 누구나 볼 수 있게 public허용
             aws_s3.ObjectAcl(current_app.config['AWS_S3_BUCKET_NAME'], s3_file_path).put(ACL='public-read')
+            
+            
+            # 사용자의 프로필 사진 경로를, s3_file_path로 저장해보자
+            upload_user.profile_img_url = s3_file_path  # DB에 사용자 프사 경로 저장
+            
+            db.session.add(upload_user)
+            db.session.commit()
+            
         
         return{
             'code' : 200,
