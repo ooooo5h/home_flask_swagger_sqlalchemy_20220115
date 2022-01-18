@@ -20,6 +20,10 @@ class Config(object):
     AWS_SECRET_ACCESS_KEY = 'HPAqtmZI7NMAMNtMsKqzMUanDjuLbSvpGsoV0jQm'
     AWS_S3_BUCKET_NAME = 'neppplus.python.20220118.jeh'
     
+    # 토큰 발급용 암호화 로직 이름 / 사용할 키값
+    JWT_ALGORITHM = 'HS512'
+    JWT_SECRET = 'my_strong_key'  #  임시 문구 (타인 노출되면 안됨)
+    
 class ProductionConfig(Config):
     pass
 
