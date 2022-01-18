@@ -1,4 +1,3 @@
-from sqlite3 import dbapi2
 from server import db
 
 class Feeds(db.Model):
