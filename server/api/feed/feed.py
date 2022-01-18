@@ -1,8 +1,14 @@
+import hashlib
+import boto3
+import time
+import os
+
+from flask import current_app
 from flask_restful import Resource, reqparse
 from flask_restful_swagger_2 import swagger
 
 from server import db
-from server.model import Feeds
+from server.model import Feeds, Users
 
 from werkzeug.datastructures import FileStorage
 
@@ -68,7 +74,15 @@ class Feed(Resource):
         
         # 사진이 첨부되지 않았을 수도 있다 => 확인해보고 올리자
         if args['feed_images'] : #사진이 파라미터에 첨부되었나?
+            
+            upload_user = Users.query.filter(Users.id == args['user_id']).first()
+            
+            aws_s3 = boto3.resource('s3',\
+                aws_access_key_id= current_app.config['AWS_ACCESS_KEY_ID'],\
+                aws_secret_access_key=current_app.config['AWS_SECRET_ACCESS_KEY'])
+            
             for image in args['feed_images']:  
+                
                 
                 
                 pass
