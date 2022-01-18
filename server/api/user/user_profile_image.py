@@ -57,10 +57,16 @@ class UserProfileImage(Resource):
         # args['profile_image']는 리스트로 구성된 경우가 많다
         
         for file in args['profile_image']:
-            print(file)   # file : 파일이름/실제 이미지 등 본문 분리
+            # print(file)   # file : 파일이름/실제 이미지 등 본문 분리
             
             # 파일 이름이 저장됨 filename => S3버킷에 저장될 경로 생성에 활용
-            print(file.filename)
+            # print(file.filename)
+            
+            # 1 : 파일 이름 재가공
+            # 2 : 확장자 추출
+            
+            # 최종경로 => 1, 2의 합체 + S3의 폴더            
+            
             s3_file_path = f'images/profile_imgs/{file.filename}'   # 올라갈 경로
             
             
