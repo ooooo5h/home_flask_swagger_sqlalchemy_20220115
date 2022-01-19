@@ -126,14 +126,23 @@ class FeedReply(Resource):
         user = g.user     
         
         # 내가 쓴 댓글이 맞는지 확인하기
-        reply = FeedReplies.query.filter(FeedReplies.id == args['feed_reply_id']).first()
+        # reply = FeedReplies.query.filter(FeedReplies.id == args['feed_reply_id']).first()
         
-        if reply.user_id != user.id:
+        # if reply.user_id != user.id:
+        #     return {
+        #         'code' : 400,
+        #         'message' : '본인이 쓴 댓글만 수정가능합니다.'
+        #     }, 400
+        
+        # 내가 쓴 댓글이 맞는지 확인하기
+        reply = FeedReplies.query.filter(FeedReplies.user_id == user.id).first()
+        
+        if reply is None:
             return {
                 'code' : 400,
                 'message' : '본인이 쓴 댓글만 수정가능합니다.'
-            }, 400
-            
+            }, 400  
+                
         reply.content = args['content']                
                         
         db.session.add(reply)
@@ -142,4 +151,7 @@ class FeedReply(Resource):
         return {
         'code' : 200,
         'message' : '임시 : 댓글 수정 성공'
-    }
+        }
+        
+# 내가 쓴 댓글은 수정이 됨. 내가 안쓴 댓글은 리턴값이 400이 나와야하는데 200이 나오고, db상에 수정은 안됨. 왜 200이 나와?
+# 선생님 답변 : 지금 코드는 해당 댓글이 없을때를 걸러내는 거에요! 아이디값으로 검색해본 댓글이 none일때를 본인댓글 아니라구 리턴하구있슴다
