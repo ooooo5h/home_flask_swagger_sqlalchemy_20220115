@@ -24,6 +24,11 @@ class Config(object):
     JWT_ALGORITHM = 'HS512'
     JWT_SECRET = 'my_strong_key'  #  임시 문구 (타인 노출되면 안됨)
     
+    
+    # 알리고 서버에서 제공하는 api키
+    ALIGO_API_KEY = 'i5m8plmyxhcpwfvty29hbzko2zzgi0nq'
+    
+    
 class ProductionConfig(Config):
     pass
 
