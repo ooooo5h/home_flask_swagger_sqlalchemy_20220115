@@ -48,12 +48,22 @@ class UserFindEmail(Resource):
         
         args = get_parser.parse_args()
         
-        user = Users.query.filter(Users.name == args['name']).filter(Users.phone == args['phone']).first()
+        user = Users.query.filter(Users.name == args['name']).first()
         
         if user is None:
             return{
                 'code' : 400,
-                'message' : '이름/핸드폰 둘다 맞게 입력해야합니다.'
+                'message' : '해당 이름의 사용자는 없습니다.'
+            }, 400
+            
+        # 이름으로 사용자 검색 성공했다. 핸드폰도 비교해야하는데, - 를 삭제하고 나서 비교하자
+        input_phone = args['phone'].replace('-', '')
+        user_phone = user.phone.replace('-', '')
+        
+        if input_phone != user_phone:
+            return{
+                'code' : 400,
+                'message' : '이름은 맞지만 연락처가 틀립니다.'
             }, 400
             
         # 이름/핸드폰 다 맞는 유저를 찾았으면 알리고로 가자
