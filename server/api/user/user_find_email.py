@@ -58,12 +58,19 @@ class UserFindEmail(Resource):
             
         # 이름/핸드폰 다 맞는 유저를 찾았으면 알리고로 가자
         # 1 : 주소 => apis.aligo.in/send
-        # 2 : 어떤 메쏘드 => POST
-        # 3 : 파라미터 => 명세서 참조
-        
-        url = 'https://apis.aligo.in/send/'
-        
+        sms_url = 'https://apis.aligo.in/send/'
 
+        # 2 : 파라미터 => 명세서 참조
+        sms_send_data = {
+            'key' : current_app.config['ALIGO_API_KEY'],
+            'user_id' : 'cho881020',
+            'sender' : '010-5112-3237',
+            'receiver' : user.phone,
+            'msg' : f"가입하신 계정은 [{user.email}]입니다.",
+        }      
+                
+        # 3 : 어떤 메쏘드 => POST       
+        requests.post(url=sms_url, data=sms_send_data)
         
         return{
             'code' : 200,
