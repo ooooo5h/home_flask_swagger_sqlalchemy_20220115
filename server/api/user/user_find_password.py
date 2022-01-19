@@ -81,14 +81,14 @@ class UserPasswordFind(Resource):
               
         # 어느 파라미터
         email_data = {
-            'from' :,
-            'to' :,
-            'subject' : '비밀번호 찾기 메일 제목',
+            'from' : 'system@gudoc.in',
+            'to' : user.email,
+            'subject' : '[MySNS 비밀번호 안내] 비밀번호 찾기 알림 메일입니다.',
             'text' : '실제 발송 내용'
         }
         
         # 어느 메쏘드
-        requests.post(url=mailgun_url, data=email_data, auth=('api, 메일건키값 '))
+        requests.post(url=mailgun_url, data=email_data, auth=('api', current_app.config['MAILGUN_API_KEY']))
         
         
         return {
