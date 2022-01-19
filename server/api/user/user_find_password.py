@@ -74,6 +74,16 @@ class UserPasswordFind(Resource):
                 'message' : '이메일은 맞는데, 연락처나 이름이 맞지 않습니다.'
             }, 400
         
+        # 메일에 보낼 내용 작성
+        # 실제 비밀번호를 보내주면 안됨!! 임시 비밀번호를 랜덤으로 설정해서, 새 비밀번호로 update 후 메일로 발송하자
+        send_content = f"""
+        안녕하세요. MySNS입니다.
+        비밀번호 안내드립니다.
+        회원님의 비밀번호는 {user.password}입니다.
+        """
+    
+        print(send_content)
+        
         # 메일 전송의 api는 mailgun.com 사이트를 활용해보자
         
         # 어느 주소
@@ -84,12 +94,14 @@ class UserPasswordFind(Resource):
             'from' : 'system@gudoc.in',
             'to' : user.email,
             'subject' : '[MySNS 비밀번호 안내] 비밀번호 찾기 알림 메일입니다.',
-            'text' : '실제 발송 내용'
+            'text' : send_content
         }
         
         # 어느 메쏘드
-        requests.post(url=mailgun_url, data=email_data, auth=('api', current_app.config['MAILGUN_API_KEY']))
+        response = requests.post(url=mailgun_url, data=email_data, auth=('api', current_app.config['MAILGUN_API_KEY']))
         
+        respJson = response.json()
+        print('메일건 응답 : ', respJson)
         
         return {
             'code' : 200,
