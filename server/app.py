@@ -15,7 +15,7 @@ def create_app(config_name):
     #SQL Alchemy 세팅 진행 => 플라스크에 해둔 환경설정값을 불러다가 활용
     db.init_app(app)
     
-    api = Api(app, api_spec_url='/api/spec', title='my_server spec', api_version='0.1', catch_all_404s=True)
+    api = Api(app, api_spec_url='/api/spec', title='은형이의 SNS Server 기능 명세', api_version='0.1', catch_all_404s=True)
     
 
     from server.api.user import User, UserProfileImage
