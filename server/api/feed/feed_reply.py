@@ -91,12 +91,19 @@ class FeedReply(Resource):
                 'required' : True
             },   
             {
+                'name' : 'feed_id',
+                'description' : '몇번 게시글에 포함된 댓글을 수정할지',
+                'in' : 'path',
+                'type' : 'integer',  
+                'required' : True
+            },        
+            {
                 'name' : 'feed_reply_id',
                 'description' : '몇번 댓글을 수정할지',
                 'in' : 'formData',
                 'type' : 'integer',  
                 'required' : True
-            },        
+            },   
             {
                 'name' : 'content',
                 'description' : '수정해줄 내용',
@@ -112,8 +119,25 @@ class FeedReply(Resource):
         }
     })    
     @token_required
-    def put(self):
-        """댓글 수정하기"""            
+    def put(self, feed_id):
+        """댓글 수정하기"""       
+        
+        args = put_parser.parse_args()      
+        user = g.user     
+        
+        # 내가 쓴 댓글이 맞는지 확인하기
+        reply = FeedReplies.query.filter(FeedReplies.id == args['feed_reply_id']).first()
+        
+        if reply.user_id != user.id:
+            return {
+                'code' : 400,
+                'message' : '본인이 쓴 댓글만 수정가능합니다.'
+            }, 400
+            
+        reply.content = args['content']                
+                        
+        db.session.add(reply)
+        db.session.commit()         
 
         return {
         'code' : 200,
