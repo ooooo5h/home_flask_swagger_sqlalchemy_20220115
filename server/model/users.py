@@ -45,3 +45,18 @@ class Users(db.Model):
         # print(f"내 게시글들 : {self.my_feeds}")
                 
         return data
+    
+    
+    # 비밀번호 암호화 관련 기능들
+    # 코드에서는 사용자.password=비번값 형태로 사용을 지원하고 싶음
+    # 대입은 가능, 읽기는 불가 => 원문 파악 x
+    @property
+    def password(self):
+        raise AttributeError('password변수는 쓰기 전용이라서, 조회는 불가합니다.')
+        
+    # password변수에 대입은 허용
+    @password.setter
+    def password(self, input_password):
+        # password = 대입값 상황에서, 대입값을 input_password에 담아주자
+        # 임시 : 들어온 값을 그대로 password_hashed컬럼에 저장
+        self.password_hashed = input_password
