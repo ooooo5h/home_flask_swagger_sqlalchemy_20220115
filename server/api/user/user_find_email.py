@@ -66,7 +66,7 @@ class UserFindEmail(Resource):
             'user_id' : 'cho881020',
             'sender' : '010-5112-3237',
             'receiver' : user.phone,
-            'msg' : f"가입하신 계정은 [{user.email}]입니다.",
+            'msg' : f"-MySNS 계정 안내-\n 가입하신 계정은 [{user.email}]입니다.",
         }      
                 
         # 3 : 어떤 메쏘드 => POST       
