@@ -18,13 +18,13 @@ def create_app(config_name):
     api = Api(app, api_spec_url='/api/spec', title='은형이의 SNS Server 기능 명세', api_version='0.1', catch_all_404s=True)
     
 
-    from server.api.user import User, UserProfileImage, UserFindEmail
+    from server.api.user import User, UserProfileImage, UserEmailFind
     from server.api.lecture import Lecture, LectureDetail
     from server.api.feed import Feed, FeedReply
     
     api.add_resource(User, '/user')
     api.add_resource(UserProfileImage, '/user/profile')
-    api.add_resource(UserFindEmail, '/user/find')
+    api.add_resource(UserEmailFind, '/user/find')
     api.add_resource(Lecture, '/lecture') 
     api.add_resource(LectureDetail, '/lecture/<int:lecture_id>')  # 자료형 기재해야함
     api.add_resource(Feed, '/feed')

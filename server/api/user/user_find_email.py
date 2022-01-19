@@ -13,7 +13,7 @@ get_parser.add_argument('name', type=str, required=True, location='args')
 get_parser.add_argument('phone', type=str, required=True, location='args')
 
 
-class UserFindEmail(Resource):
+class UserEmailFind(Resource):
     
     @swagger.doc({
         'tags' : ['user'],
