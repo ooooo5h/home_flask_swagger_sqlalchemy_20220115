@@ -70,7 +70,13 @@ class UserFindEmail(Resource):
         }      
                 
         # 3 : 어떤 메쏘드 => POST       
-        requests.post(url=sms_url, data=sms_send_data)
+        # requests의 요청에 대한 결과를 변수에 담자
+        response = requests.post(url=sms_url, data=sms_send_data)
+        
+        respJson = response.json()
+        print('문자 전송 결과 : ', respJson)
+        print('결과 코드 값 : ', respJson['result_code'])
+        print('결과 코드 값 : ', respJson['message'])
         
         return{
             'code' : 200,
