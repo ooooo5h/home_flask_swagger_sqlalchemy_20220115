@@ -27,7 +27,7 @@ def create_app(config_name):
     api.add_resource(Lecture, '/lecture') 
     api.add_resource(LectureDetail, '/lecture/<int:lecture_id>')  # 자료형 기재해야함
     api.add_resource(Feed, '/feed')
-    api.add_resource(FeedReply, '/feed/reply')
+    api.add_resource(FeedReply, '/feed/<int:feed_id>/reply')
 
     
     swagger_ui = get_swaggerui_blueprint('/api/docs', '/api/spec.json', config={'app_name' : 'my sns service'})
