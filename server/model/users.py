@@ -1,5 +1,6 @@
 # DB의 users 테이블에 연결되는 클래스
 from server import db
+import hashlib
 
 class Users(db.Model):
     # SQLAlchemy 라이브러리의 Model클래스를 활용
@@ -58,5 +59,10 @@ class Users(db.Model):
     @password.setter
     def password(self, input_password):
         # password = 대입값 상황에서, 대입값을 input_password에 담아주자
-        # 임시 : 들어온 값을 그대로 password_hashed컬럼에 저장
-        self.password_hashed = input_password
+        # 비밀번호 원문을 암호화를 해서 대입하자
+        self.password_hashed = self.generate_password_hash(input_password)
+        
+        
+    # 함수 추가 - 비밀번호 원문을 받아서 암호화를 해주는 함수
+    def generate_password_hash(self, input_password):
+        return hashlib.md5(input_password.encode('utf8')).hexdigest()
