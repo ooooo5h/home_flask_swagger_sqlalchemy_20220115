@@ -74,6 +74,23 @@ class UserPasswordFind(Resource):
                 'message' : '이메일은 맞는데, 연락처나 이름이 맞지 않습니다.'
             }, 400
         
+        # 메일 전송의 api는 mailgun.com 사이트를 활용해보자
+        
+        # 어느 주소
+        mailgun_url = 'https://api.mailgun.net/v3/mg.gudoc.in/messages'
+              
+        # 어느 파라미터
+        email_data = {
+            'from' :,
+            'to' :,
+            'subject' : '비밀번호 찾기 메일 제목',
+            'text' : '실제 발송 내용'
+        }
+        
+        # 어느 메쏘드
+        requests.post(url=mailgun_url, data=email_data, auth=('api, 메일건키값 '))
+        
+        
         return {
             'code' : 200,
             'message' : '비밀번호를 이메일로 전송했습니다.(임시)'
