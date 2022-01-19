@@ -74,11 +74,15 @@ class UserFindEmail(Resource):
         response = requests.post(url=sms_url, data=sms_send_data)
         
         respJson = response.json()
-        print('문자 전송 결과 : ', respJson)
-        print('결과 코드 값 : ', respJson['result_code'])
-        print('결과 코드 값 : ', respJson['message'])
         
-        return{
-            'code' : 200,
-            'message' : '문자로 이메일찾기 - 문자 전송 완료',
-        }
+        # 결과코드가 1이면 성공, 그 외의 값은 500으로 알리고 문제라고 리턴
+        if int(respJson['result_code']) != 1:
+            return {
+                'code' : 500,
+                'message' : respJson['message']
+            }, 500
+        else :
+            return{
+                'code' : 200,
+                'message' : '문자로 이메일찾기 - 문자 전송 완료',
+            }
