@@ -164,7 +164,7 @@ class User(Resource):
         
         # 1단계 통과 후 2단계 검사 : 비밀번호도 맞는가?
         # DB에 추가 쿼리를 조회할 필요가 없음 왜냐 => 여기 코드는 login_user가 실제 있는 상황이니까       
-        if login_user.password == args['password']:
+        if login_user.verify_password(args['password']):
             # 이메일/비밀번호 둘다 일치
             return{
                 'code' : 200,

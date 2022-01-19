@@ -66,3 +66,8 @@ class Users(db.Model):
     # 함수 추가 - 비밀번호 원문을 받아서 암호화를 해주는 함수
     def generate_password_hash(self, input_password):
         return hashlib.md5(input_password.encode('utf8')).hexdigest()
+    
+    # 비밀번호 원문을 받아서 비밀번호가 맞는 비밀번호인지 암호화된 값끼리 비교해보는 함수
+    def verify_password(self, input_password):
+        hashed_input_pw = self.generate_password_hash(input_password)  # 입력한 비밀번호를 암호화 하고
+        return self.password_hashed == hashed_input_pw  # 내 암호화된 비밀번호와 들어온 암호화비밀번호가 같은지 비교
