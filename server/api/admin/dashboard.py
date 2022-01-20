@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from server.model import Users
+from server.model import Users, Lectures, LectureUser
 
 class DashBoard(Resource):
     
@@ -12,7 +12,13 @@ class DashBoard(Resource):
         
         # 연습 : 자바 강의를 듣는 사람들의 정보 => JOIN 어떻게 할꺼야..?
         
-        
+        java_user_list = Users.query\
+            .filter(LectureUser.user_id == Users.id)\
+            .filter(LectureUser.lecture_id == Lectures.id)\
+            .filter(Lectures.title == '자바')\
+            .all()
+            
+        print(java_user_list)
         
         return{
             'code' : 200,
