@@ -1,3 +1,4 @@
+from flask import g
 from flask_restful import Resource
 from flask_restful_swagger_2 import swagger
 from server.model import Users, Lectures, LectureUser
@@ -28,6 +29,22 @@ class DashBoard(Resource):
     @token_required
     def get(self):
         """관리자 - 대쉬보드"""
+        
+        # 토큰으로 찾아낸 사용자가 관리자인지 판별해보자
+        user = g.user
+        
+        if not user.is_admin:
+            return{
+                'code' : 403,
+                'message' : '관리자만 접근 가능합니다.'
+            }, 403
+        
+        
+        
+        
+        
+        
+        
         
         # 탈퇴하지 않은 회원 수? => SELECT / users 테이블 활용 => Users 모델 import
         # first()는 한 줄 / all()은 목록 / count() 는 검색된 갯수
