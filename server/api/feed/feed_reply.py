@@ -134,7 +134,8 @@ class FeedReply(Resource):
         #         'message' : '본인이 쓴 댓글만 수정가능합니다.'
         #     }, 400
         
-        # 내가 쓴 댓글이 맞는지 확인하기
+        # 내가 쓴 댓글 중 첫번째 글만 뽑아와! 그래서 내가 쓴 글이 있다면 그 글의 내용을 수정해주고, 내가 쓴 글이 없다면 400으로 리턴!!!
+        # 아우 속시원해
         reply = FeedReplies.query.filter(FeedReplies.user_id == user.id).first()
         
         if reply is None:
@@ -149,8 +150,8 @@ class FeedReply(Resource):
         db.session.commit()         
 
         return {
-        'code' : 200,
-        'message' : '임시 : 댓글 수정 성공'
+            'code' : 200,
+            'message' : '임시 : 댓글 수정 성공'
         }
         
 # 내가 쓴 댓글은 수정이 됨. 내가 안쓴 댓글은 리턴값이 400이 나와야하는데 200이 나오고, db상에 수정은 안됨. 왜 200이 나와?
