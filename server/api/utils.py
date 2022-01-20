@@ -42,7 +42,7 @@ def decode_token(token):
         user = Users.query\
             .filter(Users.id == decoded_dict['id'])\
             .filter(Users.email == decoded_dict['email'])\
-            .filter(Users.password == decoded_dict['password'])\
+            .filter(Users.password_hashed == decoded_dict['password'])\
             .first()
             
         # 제대로 토큰이 들어왔다면 복호화시 제대로된 정보로 사용자 정보 리턴
