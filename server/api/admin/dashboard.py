@@ -1,11 +1,31 @@
 from flask_restful import Resource
+from flask_restful_swagger_2 import swagger
 from server.model import Users, Lectures, LectureUser
 from server import db
 import datetime
 
 class DashBoard(Resource):
     
+    @swagger.doc({
+        'tags' : ['admin'],
+        'description' : '관리자 - 대쉬보드',
+        'parameters' : [
+            {
+                'name' : 'X-Http-Token',
+                'description' : '사용자 인증용 헤더 - 관리자만 OK',
+                'in' : 'header',
+                'type' : 'string',
+                'required' : True,
+            }
+        ],
+        'responses' : {
+            '200' : {
+                'description' : '관리자 조회 성공'
+            }
+        }
+    })
     def get(self):
+        """관리자 - 대쉬보드"""
         
         # 탈퇴하지 않은 회원 수? => SELECT / users 테이블 활용 => Users 모델 import
         # first()는 한 줄 / all()은 목록 / count() 는 검색된 갯수
