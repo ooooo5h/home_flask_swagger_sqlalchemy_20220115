@@ -29,6 +29,13 @@ class DashBoard(Resource):
         
         amount_list = [{ 'lecture_title' : row[0], 'amount' : int(row[1]) } for row in lecture_fee_amount]         
         
+        # 모든 남성 유저 목록 출력
+        male_users = Users.query.filter(Users.is_male).all()
+        print(male_users)
+        
+        
+        
+        
         return{
             'code' : 200,
             'message' : '관리자용 각종 통계 api',
