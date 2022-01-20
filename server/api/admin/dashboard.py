@@ -29,18 +29,19 @@ class DashBoard(Resource):
         
         amount_list = [{ 'lecture_title' : row[0], 'amount' : int(row[1]) } for row in lecture_fee_amount]         
         
-        # 모든 남성 유저 목록 출력
-        male_users = Users.query.filter(Users.is_male).all()
-        print(male_users)
-        
-        
-        
-        
+        # 남성 회원수와 여성 회원수를 보여줘
+        users_count_by_gender_list = db.session.query(Users.is_male, db.func.count(Users.id))\
+            .group_by(Users.is_male)\
+            .all()
+            
+        gender_user_counts = [{'is_male' : row[0], 'user_count' : int(row[1])} for row in users_count_by_gender_list]
+                
         return{
             'code' : 200,
             'message' : '관리자용 각종 통계 api',
             'data' : {
                 'live_user_count' : users_count,
                 'lecture_fee_amount' : amount_list, # 각 강의별 총 합
+                'gender_user_counts' : gender_user_counts, # 성별에 따른 사용자 수
             }
         }
