@@ -1,7 +1,7 @@
 # 토큰을 발급하고, 발급된 토큰이 들어오면 사용자가 누구인지 분석하는 등의 기능 담당
 # JWT 관련 기능 모아두는 모듈
-from functools import wraps
 import jwt
+from functools import wraps
 from flask import current_app, g
 from flask_restful import reqparse
 
@@ -89,4 +89,21 @@ def token_required(func):
             }, 403
             
     # token_required이름표가 붙은 함수들에게 => decorator함수 전달
+    return decorator
+
+
+# 다른 함수의 시작 전에, 받아낸 토큰이 관리자가 맞는지 추가 검사하는 데코레이터
+def admin_required(func):
+    @wraps(func)
+    def decorator(*args, **kwargs):
+        # 토큰으로 사용자는 받아냈다고 전제하자 => g변수에 이미 user가 들어있다고 전제
+        user = g.user
+        
+        if not user.is_admin:
+            return{
+                'code' : 403,
+                'message' : '관리자만 접근 가능합니다.'
+            }, 403
+            
+        return func(*args, **kwargs)
     return decorator
