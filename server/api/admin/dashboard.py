@@ -25,12 +25,22 @@ class DashBoard(Resource):
             .group_by(Lectures.id)\
             .all()
         
-        print(lecture_fee_amount)
+        # print(lecture_fee_amount) => JSON 응답으로 내려갈 수 없어서 추가 가공이 필요함
+        
+        amount_list = []
+        
+        for row in lecture_fee_amount:
+            amount_list.append({
+                'title' : row[0],
+                'amount' : int(row[1])   # db의 합계 => Decimal => int()롤 가공해줘야함
+            })
+            
         
         return{
             'code' : 200,
             'message' : '관리자용 각종 통계 api',
             'data' : {
-                'live_user_count' : users_count
+                'live_user_count' : users_count,
+                'lecture_fee_amount' : amount_list, # 각 강의별 총 합
             }
         }
