@@ -1,4 +1,3 @@
-from xml.dom.minidom import ReadOnlySequentialNamedNodeMap
 from flask_restful import Resource
 from server.model import Users
 
@@ -9,6 +8,11 @@ class DashBoard(Resource):
         # 탈퇴하지 않은 회원 수? => SELECT / users 테이블 활용 => Users 모델 import
         # first()는 한 줄 / all()은 목록 / count() 는 검색된 갯수
         users_count = Users.query.filter(Users.email != 'retired').count()
+        
+        
+        # 연습 : 자바 강의를 듣는 사람들의 정보 => JOIN 어떻게 할꺼야..?
+        
+        
         
         return{
             'code' : 200,
