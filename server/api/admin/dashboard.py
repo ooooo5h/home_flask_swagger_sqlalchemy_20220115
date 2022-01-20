@@ -66,6 +66,14 @@ class DashBoard(Resource):
                 'date' : ten_days_ago.strftime('%Y-%m-%d'),
                 'amount' : 0,                
             }
+            
+            # 매출이 발생했다면 amount 금액 수정
+            for row in amount_by_date_list:
+                # DB쿼리 결과에서, 이번 날짜와 같은 날짜 발견했다면
+                if str(row[0]) == amount_dict['date']:
+                    amount_dict['amount'] = int(row[1])
+            
+            # 응답으로 등록
             date_amount.append(amount_dict)
             
             # 해당 날짜에서 하루 지난 날로 변경해주기
